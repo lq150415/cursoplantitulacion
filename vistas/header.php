@@ -29,10 +29,10 @@
         <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
             <li class="nav-item dropdown"></li>
 
-            <a href="login.html" class="btn btn-outline-primary btn-sm">
+            <a href="<?= BASE_URL ?>login" class="btn btn-outline-primary btn-sm">
                 Iniciar sesión
             </a>
-            <a href="registro.html" class="btn btn-primary btn-sm ml-1">Regístrate</a>
+            <a href="<?= BASE_URL ?>registro" class="btn btn-primary btn-sm ml-1">Regístrate</a>
 
             <div class="image">
                 <img src="<?= BASE_URL ?>vistas/dist/images/user.png" class="img-circle" width="30" alt="Imagen de usuario">

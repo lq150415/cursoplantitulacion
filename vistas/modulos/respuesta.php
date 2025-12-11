@@ -56,14 +56,15 @@ $respuestas = Respuesta::listarRespuestaPregunta("respuesta", "id_pregunta", (ex
                                         <hr>
                                         <?php foreach ($respuestas as $key => $respuesta): ?>
                                             <div class="post clearfix">
-                                                <p>Respuesta: <?= ($key+1) ?></p>
+                                                <p>Respuesta: <?= ($key + 1) ?></p>
                                                 <p>
                                                     <?= $respuesta['descripcion'] ?>
                                                 </p>
-
-                                                <div class="border float-right ml-5 p-1  mb-2">
-                                                    <img class="img-fluid pad" src="" alt="respuesta">
-                                                </div>
+                                                <?php if ($respuesta['foto'] != ""): ?>
+                                                    <div class="border float-right ml-5 p-1  mb-2">
+                                                        <img class="img-fluid pad" src="<?= BASE_URL . $respuesta['foto'] ?>" alt="Imagen respuesta">
+                                                    </div>
+                                                <?php endif; ?>
 
                                                 <div class="row d-flex justify-content-end">
                                                     <div class="col-md-6">
@@ -77,10 +78,9 @@ $respuestas = Respuesta::listarRespuestaPregunta("respuesta", "id_pregunta", (ex
                                                         <div class="user-block">
                                                             <img class="img-circle img-bordered-sm" src="<?= BASE_URL ?>vistas/dist/images/user.png" alt="User Image" />
                                                             <span class="username">
-                                                                /<small class="text-sm text-muted">Respondido el 15/07/2023 por:</small>/
-                                                                <p>Pablo Marmol</p>
+                                                                <small class="text-sm text-muted">Respondido el <?= $respuesta['creado_el'] ?> por:</small>
+                                                                <p><?= $respuesta['usuario'] ?></p>
                                                             </span>
-
                                                         </div>
                                                     </div>
                                                 </div>
