@@ -18,20 +18,36 @@ class Usuario
                         'paterno' => trim($_POST['paterno']),
                         'materno' => trim($_POST['materno'])
                     );
-                    $tabla_persona = "persona";
-                    $tabla_usuario = "usuario";
 
-                    $registro = UsuarioModel::registroUsuario($tabla_persona, $tabla_usuario, $datos);
-                    if ($registro == "ok") {
-                        echo "<div class='alert alert-success'>Registro exitoso</div>";
-                    } else {
-                        echo "<div class='alert alert-danger'>Error en el registro</div>";
+                    $id_persona = UsuarioModel::registroPersona("persona", $datos);
+                    /*var_dump($id_persona);
+                    exit;*/
+
+                    if ($id_persona) {
+                        $datos = array(
+                            'id_usuario' => $id_persona,
+                            'usuario' => trim($_POST['correo']),
+                            'clave' => password_hash(trim($_POST['clave']), PASSWORD_DEFAULT),
+                            'rol' => 'USUARIO'
+                        );
+
+                        $respuesta = UsuarioModel::registroUsuario("usuario", $datos);
+                        if ($respuesta) {
+                            /*var_dump($respuesta);
+                            exit;*/
+                            $persona = UsuarioModel::obtenerPersona($id_persona);
+                            self::iniciarSesion($persona);
+                        }
                     }
                 } else {
-                    echo "<div class='alert alert-danger'>Datos inválidos</div>";
+                    echo "<div class='alert alert-danger mt-2' role='alert'>
+                    Datos inválidos los campos solo pueden contener letra y espacios
+                    </div>";
                 }
             } else {
-                echo "<div class='alert alert-danger'>Las contraseñas no coinciden</div>";
+                echo "<div class='alert alert-danger mt-2' role='alert'>
+                Las contraseñas no coinciden
+                </div>";
             }
         }
     }
@@ -39,5 +55,18 @@ class Usuario
     static private function validarEntrada($input)
     {
         return preg_match('/^[a-zA-ZñÑáéíóúÁÉÍÓÚ ]+$/', $input);
+    }
+
+    static private function iniciarSesion($persona)
+    {
+        $_SESSION['id'] = $persona['id_persona'];
+        $_SESSION['nombre'] = $persona['nombre'];
+        $_SESSION['paterno'] = $persona['paterno'];
+        $_SESSION['materno'] = $persona['materno'];
+        $_SESSION['usuario'] = $persona['usuario'];
+        $_SESSION['rol'] = $persona['rol'];
+        echo '<script>
+            window.location="' . BASE_URL . '";
+        </script>';
     }
 }
