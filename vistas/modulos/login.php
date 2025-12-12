@@ -48,11 +48,14 @@
                         </button>
                     </div>
                 </div>
-
+                <?php
+                    $login = new Usuario();
+                    $login->loginUsuario();
+                ?>
             </form>
 
             <p class="mb-1 mt-4 text-center">
-                <a href="/"> Volver a Inicio</a>
+                <a href="<?= BASE_URL ?>"> Volver a Inicio</a>
             </p>
         </div>
     </div>

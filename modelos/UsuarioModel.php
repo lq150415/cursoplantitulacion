@@ -46,5 +46,13 @@
             $stmt->execute();
             return $stmt->fetch();
         }
+        
+        static public function obtenerPersonaPorUsuario(string $usuario){
+            $stmt=Conexion::conectar()->prepare("SELECT * FROM persona p inner join usuario u 
+            ON p.id_persona=u.id_usuario WHERE u.usuario=:usuario");
+            $stmt->bindParam(":usuario",$usuario,PDO::PARAM_STR);
+            $stmt->execute();
+            return $stmt->fetch();
+        }
     }
 ?>

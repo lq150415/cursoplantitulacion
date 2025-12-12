@@ -1,3 +1,8 @@
+<?php
+//$preguntas = Pregunta::listarPreguntas('pregunta', 'id_usuario', $_SESSION['id']);
+$preguntas = Pregunta::listarPreguntasUsuario('pregunta', 'id_usuario', $_SESSION['id']);
+//var_dump($preguntas);
+?>
 <div class="content-wrapper">
     <div class="content-header">
         <div class="container">
@@ -7,7 +12,7 @@
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="perfil">Inicio</a></li>
+                        <li class="breadcrumb-item"><a href="<?= BASE_URL ?>">Inicio</a></li>
                         <li class="breadcrumb-item">Perfil</li>
                     </ol>
                 </div>
@@ -22,16 +27,16 @@
                 <div class="card card-primary card-outline">
                     <div class="card-body box-profile">
                         <div class="text-center">
-                            <img class="profile-user-img img-fluid img-circle" src="vistas/dist/images/user.png" alt="User profile picture">
+                            <img class="profile-user-img img-fluid img-circle" src="<?= BASE_URL ?>vistas/dist/images/user.png" alt="User profile picture">
                         </div>
 
-                        <h3 class="profile-username text-center"> Inicie Sesion</h3>
+                        <h3 class="profile-username text-center"> <?= $_SESSION['nombre'] . ' ' . $_SESSION['paterno'] . ' ' . $_SESSION['materno'] ?></h3>
 
-                        <p class="text-muted text-center">Inicie Sesion</p>
+                        <p class="text-muted text-center"><?= $_SESSION['usuario'] ?></p>
 
                         <ul class="list-group list-group-unbordered mb-3">
                             <li class="list-group-item">
-                                <b>Preguntas</b> <a class="float-right">10</a>
+                                <b>Preguntas</b> <a class="float-right"><?= (count($preguntas) + 1) ?></a>
                             </li>
                             <li class="list-group-item">
                                 <b>Respuestas</b> <a class="float-right">5</a>
@@ -51,42 +56,39 @@
                     <div class=" p-2 d-flex justify-content-between">
 
                         <h2>Preguntas Posteadas</h2>
-                        <a href="pregunta.html" class="btn btn-primary ">Formular Pregunta</a>
+                        <a href="<?= BASE_URL ?>pregunta" class="btn btn-primary ">Formular Pregunta</a>
                     </div>
                     <hr>
                     <div class="card-body">
+                        <?php if (count($preguntas) > 0): ?>
+                            <?php foreach ($preguntas as $pregunta): ?>
+                                <div class="post">
+                                    <div class="user-block">
+                                        <img class="img-circle img-bordered-sm" src="<?= BASE_URL ?>vistas/dist/images/user.png" alt="user image">
+                                        <span class="username">
+                                            <a href="<?= BASE_URL?>/respuesta/<?= $pregunta['id_pregunta'] ?>"><?= $pregunta['titulo'] ?></a>
+                                        </span>
+                                        <span class="description">Publicado el - <?= $pregunta['creado_el'] ?></span>
+                                    </div>
+                                    <!-- /.user-block -->
+                                    <p>
+                                        <?= $pregunta['descripcion'] ?>
+                                    </p>
 
-                        <div class="post">
-                            <div class="user-block">
-                                <img class="img-circle img-bordered-sm" src="vistas/dist/images/user.png" alt="user image">
-                                <span class="username">
-                                    <a href="respuesta/"></a>
-                                </span>
-                                <span class="description">Shared publicly - 7:30 PM today</span>
+                                    <p>
+                                        <a href="#" class="link-black text-sm">
+                                            <i class="far fa-comments mr-1"></i> Respuestas (<?= $pregunta['cantidad_respuestas'] ?>)
+                                        </a>
+                                    </p>
+                                </div>
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <!-- mensaje sinpreguntas -->
+                            <div class="post">
+                                <p>Sin Preguntas Posteadas</p>
                             </div>
-                            <!-- /.user-block -->
-                            <p>
-
-                                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Corporis obcaecati amet cum atque voluptatum quaerat, laudantium quis consequuntur temporibus vitae qui dolores ipsam vero, assumenda beatae ipsum et voluptas voluptatem?
-                            </p>
-
-                            <p>
-                                <a href="#" class="link-black text-sm">
-                                    <i class="far fa-comments mr-1"></i> Respuestas (4)
-                                </a>
-
-                            </p>
-
-                        </div>
-
+                        <?php endif; ?>
                         <!-- mensaje sinpreguntas -->
-                        <div class="post">
-
-                            <p>Sin Preguntas Posteadas</p>
-
-                        </div>
-                        <!-- mensaje sinpreguntas -->
-
                         <!-- /.tab-content -->
                     </div><!-- /.card-body -->
                 </div>
