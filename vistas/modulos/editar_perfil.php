@@ -1,3 +1,9 @@
+<?php
+require_once __DIR__ . "/../../modelos/UsuarioModel.php";
+$usuario = UsuarioModel::obtenerPersona($_SESSION['id']);
+$avatar = isset($_SESSION['avatar']) ? $_SESSION['avatar'] : $usuario['avatar'];
+$avatar_url = $avatar ? BASE_URL . $avatar : BASE_URL . 'vistas/dist/images/user.png';
+?>
 <div class="content-wrapper">
     <div class="content-header">
         <div class="container">
@@ -15,6 +21,14 @@
             </div>
         </div>
     </div>
+    <script>
+    $(document).ready(function() {
+        $('.custom-file-input').on('change', function() {
+            var fileName = $(this).val().split('\\').pop();
+            $(this).next('.custom-file-label').html(fileName);
+        });
+    });
+    </script>
 
     <div class="content">
         <div class="container">
@@ -41,6 +55,7 @@
 
                                 <div class="form-group">
                                     <label for="avatar">Avatar</label>
+                                    <div><img src="<?= $avatar_url ?>" alt="Avatar actual" style="width: 100px; height: 100px; border-radius: 50%;"></div>
                                     <div class="input-group">
                                         <div class="custom-file">
                                             <input type="file" class="custom-file-input" id="avatar" name="avatar"
@@ -60,7 +75,7 @@
                                 <a href="<?= BASE_URL ?>perfil" class="btn btn-secondary">Cancelar</a>
                             </div>
                             <?php
-                            require_once "../../modelos/UsuarioModel.php";
+                            require_once __DIR__ . "/../../modelos/UsuarioModel.php";
                                 $usuario=new Usuario();
                                 $usuario->editarPerfil();
                             ?>

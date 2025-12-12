@@ -1,5 +1,5 @@
 <?php
-require_once "../../modelos/UsuarioModel.php";
+require_once __DIR__ . "/../../modelos/UsuarioModel.php";
 //$preguntas = Pregunta::listarPreguntas('pregunta', 'id_usuario', $_SESSION['id']);
 $preguntas = Pregunta::listarPreguntasUsuario('pregunta', 'id_usuario', $_SESSION['id']);
 //var_dump($preguntas);
