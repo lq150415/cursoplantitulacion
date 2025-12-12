@@ -40,7 +40,7 @@
             }
         }
         static public function obtenerPersona(int $id_persona){
-            $stmt=Conexion::conectar()->prepare("SELECT * FROM persona p inner join usuario u 
+            $stmt=Conexion::conectar()->prepare("SELECT p.*,u.usuario,u.rol FROM persona p inner join usuario u
             ON p.id_persona=u.id_usuario WHERE p.id_persona=:id_persona");
             $stmt->bindParam(":id_persona",$id_persona,PDO::PARAM_INT);
             $stmt->execute();
@@ -48,11 +48,25 @@
         }
         
         static public function obtenerPersonaPorUsuario(string $usuario){
-            $stmt=Conexion::conectar()->prepare("SELECT * FROM persona p inner join usuario u 
+            $stmt=Conexion::conectar()->prepare("SELECT * FROM persona p inner join usuario u
             ON p.id_persona=u.id_usuario WHERE u.usuario=:usuario");
             $stmt->bindParam(":usuario",$usuario,PDO::PARAM_STR);
             $stmt->execute();
             return $stmt->fetch();
+        }
+
+        static public function actualizarPerfil($tabla,$datos){
+            $stmt=Conexion::conectar()->prepare("UPDATE $tabla SET nombre=:nombre,paterno=:paterno,materno=:materno,avatar=:avatar WHERE id_persona=:id_persona");
+            $stmt->bindParam(":nombre",$datos['nombre'],PDO::PARAM_STR);
+            $stmt->bindParam(":paterno",$datos['paterno'],PDO::PARAM_STR);
+            $stmt->bindParam(":materno",$datos['materno'],PDO::PARAM_STR);
+            $stmt->bindParam(":avatar",$datos['avatar'],PDO::PARAM_STR);
+            $stmt->bindParam(":id_persona",$datos['id_persona'],PDO::PARAM_INT);
+            if($stmt->execute()){
+                return true;
+            }else{
+                return false;
+            }
         }
     }
 ?>

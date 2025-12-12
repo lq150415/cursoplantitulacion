@@ -1,6 +1,6 @@
 <?php
 session_start();
-$rutas=['login','perfil','pregunta','preguntas','registro','respuesta','salir'];
+$rutas=['login','perfil','pregunta','preguntas','registro','respuesta','salir','editar_perfil'];
 if(isset($_GET['ruta'])){
     $ruta=explode('/',$_GET['ruta']);
     $ruta = $ruta[0];

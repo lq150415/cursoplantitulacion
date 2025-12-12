@@ -1,7 +1,11 @@
 <?php
+require_once "../../modelos/UsuarioModel.php";
 //$preguntas = Pregunta::listarPreguntas('pregunta', 'id_usuario', $_SESSION['id']);
 $preguntas = Pregunta::listarPreguntasUsuario('pregunta', 'id_usuario', $_SESSION['id']);
 //var_dump($preguntas);
+$usuario = UsuarioModel::obtenerPersona($_SESSION['id']);
+$avatar = isset($_SESSION['avatar']) ? $_SESSION['avatar'] : $usuario['avatar'];
+$avatar_url = $avatar ? BASE_URL . $avatar : BASE_URL . 'vistas/dist/images/user.png';
 ?>
 <div class="content-wrapper">
     <div class="content-header">
@@ -27,7 +31,7 @@ $preguntas = Pregunta::listarPreguntasUsuario('pregunta', 'id_usuario', $_SESSIO
                 <div class="card card-primary card-outline">
                     <div class="card-body box-profile">
                         <div class="text-center">
-                            <img class="profile-user-img img-fluid img-circle" src="<?= BASE_URL ?>vistas/dist/images/user.png" alt="User profile picture">
+                            <img class="profile-user-img img-fluid img-circle" src="<?= $avatar_url ?>" alt="User profile picture">
                         </div>
 
                         <h3 class="profile-username text-center"> <?= $_SESSION['nombre'] . ' ' . $_SESSION['paterno'] . ' ' . $_SESSION['materno'] ?></h3>
@@ -43,7 +47,7 @@ $preguntas = Pregunta::listarPreguntasUsuario('pregunta', 'id_usuario', $_SESSIO
                             </li>
                         </ul>
 
-                        <a href="#" class="btn btn-primary btn-block"><b>Editar</b></a>
+                        <a href="<?= BASE_URL ?>editar_perfil" class="btn btn-primary btn-block"><b>Editar</b></a>
                     </div>
                     <!-- /.card-body -->
                 </div>

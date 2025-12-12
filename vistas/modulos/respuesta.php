@@ -33,7 +33,7 @@ $respuesta = Respuesta::listarRespuestaPregunta('respuesta', 'id_pregunta', (exp
                                     <!-- Post -->
                                     <div class="post">
                                         <div class="user-block">
-                                            <img class="img-circle img-bordered-sm" src="<?= BASE_URL ?>/vistas/dist/images/user.png" width="128px" alt="user image ">
+                                            <img class="img-circle img-bordered-sm" src="<?= $pregunta['avatar'] ? BASE_URL . $pregunta['avatar'] : BASE_URL . 'vistas/dist/images/user.png' ?>" width="128px" alt="user image ">
                                             <span class="username">
                                                 <p><?= $pregunta['titulo'] ?></p>
                                                 <p><?= $pregunta['usuario'] ?></p>
@@ -74,7 +74,7 @@ $respuesta = Respuesta::listarRespuestaPregunta('respuesta', 'id_pregunta', (exp
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="user-block">
-                                                    <img class="img-circle img-bordered-sm" src="<?= BASE_URL ?>vistas/dist/images/user.png" alt="User Image" />
+                                                    <img class="img-circle img-bordered-sm" src="<?= $res['avatar'] ? BASE_URL . $res['avatar'] : BASE_URL . 'vistas/dist/images/user.png' ?>" alt="User Image" />
                                                     <span class="username">
                                                         <small class="text-sm text-muted">Respondido el <?= $res['creado_el']?> por:</small>
                                                         <p><?= $res['usuario']?></p>

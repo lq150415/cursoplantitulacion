@@ -88,4 +88,56 @@ class Usuario
             }
         }
     }
+
+    public function editarPerfil(){
+        if(isset($_POST['nombre']) && isset($_POST['paterno']) && isset($_POST['materno'])){
+            if(self::validarEntrada($_POST['nombre']) && self::validarEntrada($_POST['paterno']) && self::validarEntrada($_POST['materno'])){
+                $avatar=NULL;
+                if(isset($_FILES['avatar']['name']) && $_FILES['avatar']['name']!=""){
+                    if(self::validarImagen($_FILES['avatar']['type'])){
+                        $directorio="vistas/upload/avatar/";
+                        $avatar=$directorio.time().'.'.pathinfo($_FILES['avatar']['name'],PATHINFO_EXTENSION);
+                        move_uploaded_file($_FILES['avatar']['tmp_name'],$avatar);
+                    }
+                }
+                $datos=array(
+                    'nombre'=>trim($_POST['nombre']),
+                    'paterno'=>trim($_POST['paterno']),
+                    'materno'=>trim($_POST['materno']),
+                    'avatar'=>$avatar,
+                    'id_persona'=>$_SESSION['id']
+                );
+                $respuesta=UsuarioModel::actualizarPerfil('persona',$datos);
+                if($respuesta){
+                    //Actualizar sesion
+                    $_SESSION['nombre']=trim($_POST['nombre']);
+                    $_SESSION['paterno']=trim($_POST['paterno']);
+                    $_SESSION['materno']=trim($_POST['materno']);
+                    if($avatar!=NULL){
+                        $_SESSION['avatar']=$avatar;
+                    }
+                    echo "<script>
+                        alert('Perfil actualizado correctamente');
+                        window.location='perfil';
+                    </script>";
+                }else{
+                    echo "<script>
+                        alert('Error al actualizar el perfil');
+                    </script>";
+                }
+            }else{
+                echo "<div class='alert alert-danger mt-2' role='alert'>
+                Datos inválidos los campos solo pueden contener letra y espacios
+                </div>";
+            }
+        }
+    }
+
+    static private function validarImagen($tipo){
+        if($tipo!=""){
+            return $tipo=='image/jpeg' || $tipo=='image/png' || $tipo=='image/jpg';
+        }else{
+            return true;
+        }
+    }
 }
